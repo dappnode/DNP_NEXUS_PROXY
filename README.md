@@ -87,15 +87,18 @@ endpoint.
 ## Build
 
 ```sh
-NEXUS_GITHUB_TOKEN="$(gh auth token)" docker build \
-  --secret id=github_token,env=NEXUS_GITHUB_TOKEN \
-  --build-arg UPSTREAM_VERSION=6f02086cfd47e0391bd660f34872e8d933ea943d \
-  -t nexus-local-proxy:dev .
+NEXUS_SDK_TOKEN="$(gh auth token)" docker compose build
 ```
 
-The image builds the SDK from a full Git commit and runs as an unprivileged
-user in a minimal runtime image. The BuildKit secret is required because the
-SDK repository is private; it is not stored in an image layer. Automated
-releases cannot supply it, so CI builds will fail until the SDK repository is
-public or a token is threaded through the build. Remove this requirement once
-a public SDK source release or proxy image exists.
+The image builds the SDK from a full Git commit, verifies the checked-out
+revision matches, and runs as an unprivileged user in a minimal runtime image.
+
+`NEXUS_SDK_TOKEN` must hold a token with read access to the private
+`dappnode-nexus-sdk` repository. `docker-compose.yml` passes it to the build as
+a BuildKit secret, so it never reaches an image layer. In CI it comes from the
+`NEXUS_SDK_TOKEN` repository secret; the default `GITHUB_TOKEN` cannot be used
+because it is scoped to this repository only.
+
+Remove the secret, the `secrets:` blocks in `docker-compose.yml`, and this
+section once the SDK repository is public: the Dockerfile already falls back to
+an unauthenticated fetch when no secret is supplied.
