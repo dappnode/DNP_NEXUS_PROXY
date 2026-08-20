@@ -14,12 +14,22 @@ jobs:
     name: Build test
     steps:
       - uses: actions/checkout@v4
+
+      # The proxy source lives in the private dappnode-nexus-sdk repository.
+      # The default GITHUB_TOKEN is scoped to this repository only, so mint a
+      # short-lived, read-only token for that one repository instead.
+      - uses: actions/create-github-app-token@v3
+        id: sdk-token
+        with:
+          client-id: ${{ vars.TROPI_APP_ID }}
+          private-key: ${{ secrets.TROPI_APP_PRIVATE_KEY }}
+          owner: dappnode
+          repositories: dappnode-nexus-sdk
+          permission-contents: read
+
       - run: npx @dappnode/dappnodesdk build --skip_save
         env:
-          # Read access to the private dappnode-nexus-sdk repository. The
-          # default GITHUB_TOKEN is scoped to this repository only and cannot
-          # fetch the proxy source.
-          NEXUS_SDK_TOKEN: ${{ secrets.NEXUS_SDK_TOKEN }}
+          NEXUS_SDK_TOKEN: ${{ steps.sdk-token.outputs.token }}
 
   release:
     name: Release
@@ -27,9 +37,19 @@ jobs:
     if: github.event_name == 'push' || github.event_name == 'repository_dispatch'
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/create-github-app-token@v3
+        id: sdk-token
+        with:
+          client-id: ${{ vars.TROPI_APP_ID }}
+          private-key: ${{ secrets.TROPI_APP_PRIVATE_KEY }}
+          owner: dappnode
+          repositories: dappnode-nexus-sdk
+          permission-contents: read
+
       - name: Publish
         run: npx @dappnode/dappnodesdk publish patch --dappnode_team_preset --timeout 2h
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEXUS_SDK_TOKEN: ${{ secrets.NEXUS_SDK_TOKEN }}
+          NEXUS_SDK_TOKEN: ${{ steps.sdk-token.outputs.token }}
           DEVELOPER_ADDRESS: "0xf35960302a07022aba880dffaec2fdd64d5bf1c1"

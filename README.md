@@ -95,9 +95,10 @@ revision matches, and runs as an unprivileged user in a minimal runtime image.
 
 `NEXUS_SDK_TOKEN` must hold a token with read access to the private
 `dappnode-nexus-sdk` repository. `docker-compose.yml` passes it to the build as
-a BuildKit secret, so it never reaches an image layer. In CI it comes from the
-`NEXUS_SDK_TOKEN` repository secret; the default `GITHUB_TOKEN` cannot be used
-because it is scoped to this repository only.
+a BuildKit secret, so it never reaches an image layer. CI mints one per run
+from the organisation's Tropi GitHub App, scoped to that single repository with
+read-only contents; the default `GITHUB_TOKEN` cannot be used because it is
+scoped to this repository only.
 
 Remove the secret, the `secrets:` blocks in `docker-compose.yml`, and this
 section once the SDK repository is public: the Dockerfile already falls back to
