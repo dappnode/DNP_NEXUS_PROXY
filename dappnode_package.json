@@ -1,0 +1,43 @@
+{
+  "name": "nexus-local-proxy.dnp.dappnode.eth",
+  "version": "0.1.0",
+  "upstreamVersion": "f98b551edb76390d7c7c5617754e9868f4306d10",
+  "upstreamRepo": "dappnode/dappnode-nexus-sdk",
+  "upstreamArg": "UPSTREAM_VERSION",
+  "shortDescription": "Attested private AI proxy for DAppNode applications",
+  "description": "A shared OpenAI-compatible Nexus proxy for applications on the same DAppNode. It verifies the measured Nexus Gateway inside AWS Nitro Enclaves and encrypts prompt and completion bodies with EHBP before they cross Cloudflare.",
+  "type": "service",
+  "mainService": "nexus-local-proxy",
+  "architectures": [
+    "linux/amd64",
+    "linux/arm64"
+  ],
+  "requirements": {
+    "minimumDappnodeVersion": "0.2.50"
+  },
+  "categories": [
+    "AI",
+    "Developer tools"
+  ],
+  "keywords": [
+    "ai",
+    "confidential",
+    "ehbp",
+    "nitro-enclaves",
+    "openai",
+    "proxy",
+    "tee"
+  ],
+  "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dappnode/DAppNodePackage-nexus-local-proxy"
+  },
+  "bugs": {
+    "url": "https://github.com/dappnode/DAppNodePackage-nexus-local-proxy/issues"
+  },
+  "license": "MIT",
+  "warnings": {
+    "onInstall": "This package protects inference bodies from the local Nexus proxy to the attested Nexus Gateway. The DAppNode host and internal package network remain trusted. Do not expose port 3301 publicly."
+  }
+}

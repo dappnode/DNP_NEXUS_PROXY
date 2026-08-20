@@ -1,0 +1,6 @@
+build/
+build_*/
+docker-compose-tmp.yml
+*.tar
+*.tar.gz
+*.zip

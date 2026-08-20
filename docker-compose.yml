@@ -1,0 +1,41 @@
+version: "3.5"
+
+services:
+  nexus-local-proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UPSTREAM_VERSION: f98b551edb76390d7c7c5617754e9868f4306d10
+    image: nexus-local-proxy.dnp.dappnode.eth:0.1.0
+    container_name: DAppNodePackage-nexus-local-proxy.dnp.dappnode.eth
+    restart: unless-stopped
+    command:
+      - --gateway-url
+      - https://nexus-api-tee.dappnode.com
+      - --trust-policy
+      - /etc/nexus/nexus-gateway-policy.json
+      - --listen
+      - 0.0.0.0:3301
+      - --listen-scope
+      - dappnode
+    expose:
+      - "3301"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 15s
+    healthcheck:
+      test:
+        - CMD
+        - /usr/local/bin/nexus-proxy-healthcheck
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
