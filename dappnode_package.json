@@ -5,7 +5,7 @@
   "upstreamRepo": "dappnode/dappnode-nexus-sdk",
   "upstreamArg": "UPSTREAM_VERSION",
   "shortDescription": "Attested private AI proxy for DAppNode applications",
-  "description": "A shared OpenAI-compatible Nexus proxy for applications on the same DAppNode. It verifies the measured Nexus Gateway inside AWS Nitro Enclaves and encrypts prompt and completion bodies with EHBP before they cross Cloudflare.",
+  "description": "A shared OpenAI-compatible Nexus proxy for applications on the same DAppNode. It verifies the measured Nexus Gateway inside AWS Nitro Enclaves and encrypts prompt and completion bodies with EHBP before they cross Cloudflare. A local verification page at /verification shows the attestation evidence behind that protection and lets you export it for independent checking.",
   "type": "service",
   "mainService": "nexus-local-proxy",
   "architectures": [
@@ -24,6 +24,7 @@
     "confidential",
     "ehbp",
     "nitro-enclaves",
+    "attestation",
     "openai",
     "proxy",
     "tee"
