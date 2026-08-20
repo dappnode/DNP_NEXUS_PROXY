@@ -68,31 +68,34 @@ timing, or bearer API key. This package does not extend the claim to a
 downstream inference provider. Do not publish container port 3301 to the host
 or Internet.
 
-## Current staging pin
+## Current pin
 
-This initial package is for the existing EHBP staging stack. It pins:
+This package pins:
 
-- SDK base commit `f98b551edb76390d7c7c5617754e9868f4306d10` plus the local DAppNode listener patch in `patches/`.
+- SDK commit `6f02086cfd47e0391bd660f34872e8d933ea943d` (`main`).
 - Gateway source revision `b9afcee715ee35700b6ff1fc94445c75c191a1d1`.
 - The PCR values in `nexus-gateway-policy.json`.
 - Gateway origin `https://nexus-api-tee.dappnode.com`.
 
-The listener patch is temporary. Once the corresponding SDK change is in the
-SDK repository, update `UPSTREAM_VERSION` and remove the patch application
-from the Dockerfile. Before a production release, replace the staging policy
-with measurements independently obtained from the merged Gateway release.
+The trust policy must always describe the Gateway release actually deployed at
+that origin. It is fail-closed: if the pinned measurements do not match the
+running enclave, the proxy refuses every inference request. Update this policy
+only together with the corresponding Gateway deployment, using measurements
+taken from the signed release record rather than from the live attestation
+endpoint.
 
 ## Build
 
 ```sh
 NEXUS_GITHUB_TOKEN="$(gh auth token)" docker build \
   --secret id=github_token,env=NEXUS_GITHUB_TOKEN \
-  --build-arg UPSTREAM_VERSION=f98b551edb76390d7c7c5617754e9868f4306d10 \
+  --build-arg UPSTREAM_VERSION=6f02086cfd47e0391bd660f34872e8d933ea943d \
   -t nexus-local-proxy:dev .
 ```
 
-The image builds the SDK from a full Git commit, applies the reviewed local
-patch, and runs as an unprivileged user in a minimal runtime image. The
-BuildKit secret is temporarily required because the SDK repository is private;
-it is not stored in an image layer. Remove this requirement once a public SDK
-source release or proxy image exists.
+The image builds the SDK from a full Git commit and runs as an unprivileged
+user in a minimal runtime image. The BuildKit secret is required because the
+SDK repository is private; it is not stored in an image layer. Automated
+releases cannot supply it, so CI builds will fail until the SDK repository is
+public or a token is threaded through the build. Remove this requirement once
+a public SDK source release or proxy image exists.

@@ -25,10 +25,6 @@ RUN --mount=type=secret,id=github_token \
     && git checkout --detach FETCH_HEAD \
     && test "$(git rev-parse HEAD)" = "${UPSTREAM_VERSION}"
 
-COPY patches/sdk-dappnode-network.patch /tmp/sdk-dappnode-network.patch
-RUN git apply --check /tmp/sdk-dappnode-network.patch \
-    && git apply /tmp/sdk-dappnode-network.patch
-
 RUN go mod download \
     && go mod verify \
     && CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/nexus-proxy ./cmd/nexus-proxy
