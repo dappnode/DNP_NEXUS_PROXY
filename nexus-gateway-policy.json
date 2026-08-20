@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "manifest_schema_version": 4,
+  "workload": "dappnode-nexus-gateway",
+  "profile": "nexus-gateway-v2",
+  "source_revision": "b9afcee715ee35700b6ff1fc94445c75c191a1d1",
+  "pcr0": "019dca14ee2a79bdee7ef2c16bb9ab343ab653e08d1ed1a51f127d3b3911777ba0f5e046dbc58b1682766ea042c419af",
+  "pcr1": "4b4d5b3661b3efc12920900c80e126e4ce783c522de6c02a2a5bf7af3a2b9327b86776f188e4be1c1c404a129dbda493",
+  "pcr2": "8f27cf064096846f9b00e429f447c1310e2d9db1a75ae20d362232a2afc7e462c35232446d36a4fa56a54c2915f2de63",
+  "e2ee": {
+    "protocol": "ehbp-v1",
+    "suite": "DHKEM-X25519-HKDF-SHA256/HKDF-SHA256/AES-256-GCM",
+    "endpoint": "/v1/confidential/chat/completions",
+    "request_encrypted": true,
+    "response_encrypted": true
+  }
+}
