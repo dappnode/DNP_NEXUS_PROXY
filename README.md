@@ -73,7 +73,7 @@ or Internet.
 This package pins:
 
 - SDK commit `6f02086cfd47e0391bd660f34872e8d933ea943d` (`main`).
-- Gateway source revision `b9afcee715ee35700b6ff1fc94445c75c191a1d1`.
+- Gateway release `v0.1.57`, source revision `bda15a3549b7a9fbb37004281852079e9013f73b`.
 - The PCR values in `nexus-gateway-policy.json`.
 - Gateway origin `https://nexus-api-tee.dappnode.com`.
 
