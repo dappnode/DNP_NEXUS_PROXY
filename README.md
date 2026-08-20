@@ -34,6 +34,28 @@ should continue to obtain model metadata from
 `https://nexus-api.dappnode.com/v1/models`. `GET /healthz` reports whether the
 local proxy is ready.
 
+## Privacy verification page
+
+The package serves a page showing whether the Gateway is currently verified and
+what was checked:
+
+```text
+http://nexus-local-proxy.dappnode.private:3301/verification
+```
+
+It reports the verdict in plain language, lists the checks the proxy performed
+before it would encrypt anything, shows the enclave measurements and attested
+key, and lists recent requests with the attested key each one was encrypted to.
+From there the raw COSE_Sign1 attestation document and its signed manifest can
+be downloaded and re-checked with an independent AWS Nitro verifier.
+
+The page shows no prompt or completion content. The ledger behind it records
+only verification evidence and per request identifiers, timing and sizes, and
+holds them in memory: nothing is written to disk and history starts empty after
+a restart. Because it is served on the proxy port, anything on the DAppNode
+internal network can read this metadata. Add `--verification-ui=false` to the
+service command to remove the page and its API.
+
 ## Security boundary
 
 Callers trust the DAppNode host, this package, and the DAppNode internal
