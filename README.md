@@ -68,31 +68,40 @@ timing, or bearer API key. This package does not extend the claim to a
 downstream inference provider. Do not publish container port 3301 to the host
 or Internet.
 
-## Current staging pin
+## Current pin
 
-This initial package is for the existing EHBP staging stack. It pins:
+This package pins:
 
-- SDK base commit `f98b551edb76390d7c7c5617754e9868f4306d10` plus the local DAppNode listener patch in `patches/`.
-- Gateway source revision `b9afcee715ee35700b6ff1fc94445c75c191a1d1`.
+- SDK commit `7ecb47b27122d41f010d33811236328e7ce3af17` (`main`).
+- Gateway release `v0.1.57`, source revision `bda15a3549b7a9fbb37004281852079e9013f73b`.
 - The PCR values in `nexus-gateway-policy.json`.
 - Gateway origin `https://nexus-api-tee.dappnode.com`.
 
-The listener patch is temporary. Once the corresponding SDK change is in the
-SDK repository, update `UPSTREAM_VERSION` and remove the patch application
-from the Dockerfile. Before a production release, replace the staging policy
-with measurements independently obtained from the merged Gateway release.
+The trust policy must always describe a Gateway release actually deployed at
+that origin. It is fail-closed: if no pinned release matches the running
+enclave, the proxy refuses to start. Take measurements from the signed release
+record rather than from the live attestation endpoint.
+
+`releases` accepts several entries, so a Gateway can be rolled out without
+installed proxies failing closed in between. Publish a policy listing both the
+outgoing and incoming release, let it reach nodes, deploy the Gateway, then
+publish a policy listing only the new release.
 
 ## Build
 
 ```sh
-NEXUS_GITHUB_TOKEN="$(gh auth token)" docker build \
-  --secret id=github_token,env=NEXUS_GITHUB_TOKEN \
-  --build-arg UPSTREAM_VERSION=f98b551edb76390d7c7c5617754e9868f4306d10 \
-  -t nexus-local-proxy:dev .
+NEXUS_SDK_TOKEN="$(gh auth token)" docker compose build
 ```
 
-The image builds the SDK from a full Git commit, applies the reviewed local
-patch, and runs as an unprivileged user in a minimal runtime image. The
-BuildKit secret is temporarily required because the SDK repository is private;
-it is not stored in an image layer. Remove this requirement once a public SDK
-source release or proxy image exists.
+The image builds the SDK from a full Git commit, verifies the checked-out
+revision matches, and runs as an unprivileged user in a minimal runtime image.
+
+`NEXUS_SDK_TOKEN` must hold a token with read access to the private
+`dappnode-nexus-sdk` repository. `docker-compose.yml` passes it to the build as
+a BuildKit secret, so it never reaches an image layer. In CI it comes from the
+`NEXUS_SDK_TOKEN` repository secret; the default `GITHUB_TOKEN` cannot be used
+because it is scoped to this repository only.
+
+Remove the secret, the `secrets:` blocks in `docker-compose.yml`, and this
+section once the SDK repository is public: the Dockerfile already falls back to
+an unauthenticated fetch when no secret is supplied.
