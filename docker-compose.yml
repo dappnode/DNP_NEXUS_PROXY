@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        UPSTREAM_VERSION: 6f02086cfd47e0391bd660f34872e8d933ea943d
+        UPSTREAM_VERSION: 7ecb47b27122d41f010d33811236328e7ce3af17
       secrets:
         - github_token
     image: nexus-local-proxy.dnp.dappnode.eth:0.1.0

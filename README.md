@@ -72,17 +72,20 @@ or Internet.
 
 This package pins:
 
-- SDK commit `6f02086cfd47e0391bd660f34872e8d933ea943d` (`main`).
+- SDK commit `7ecb47b27122d41f010d33811236328e7ce3af17` (`main`).
 - Gateway release `v0.1.57`, source revision `bda15a3549b7a9fbb37004281852079e9013f73b`.
 - The PCR values in `nexus-gateway-policy.json`.
 - Gateway origin `https://nexus-api-tee.dappnode.com`.
 
-The trust policy must always describe the Gateway release actually deployed at
-that origin. It is fail-closed: if the pinned measurements do not match the
-running enclave, the proxy refuses every inference request. Update this policy
-only together with the corresponding Gateway deployment, using measurements
-taken from the signed release record rather than from the live attestation
-endpoint.
+The trust policy must always describe a Gateway release actually deployed at
+that origin. It is fail-closed: if no pinned release matches the running
+enclave, the proxy refuses to start. Take measurements from the signed release
+record rather than from the live attestation endpoint.
+
+`releases` accepts several entries, so a Gateway can be rolled out without
+installed proxies failing closed in between. Publish a policy listing both the
+outgoing and incoming release, let it reach nodes, deploy the Gateway, then
+publish a policy listing only the new release.
 
 ## Build
 
