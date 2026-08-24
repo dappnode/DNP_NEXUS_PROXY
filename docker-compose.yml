@@ -9,7 +9,7 @@ services:
         UPSTREAM_VERSION: dc337543af71671ef56ca7c2309223e647e60e41
       secrets:
         - github_token
-    image: nexus-local-proxy.dnp.dappnode.eth:0.1.1
+    image: nexus-local-proxy.dnp.dappnode.eth:0.1.2
     container_name: DAppNodePackage-nexus-local-proxy.dnp.dappnode.eth
     restart: unless-stopped
     command:
