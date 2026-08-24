@@ -29,10 +29,17 @@ and trust-policy updates independently:
 }
 ```
 
-Only `POST /v1/chat/completions` is OpenAI-compatible today. Applications
-should continue to obtain model metadata from
-`https://nexus-api.dappnode.com/v1/models`. `GET /healthz` reports whether the
-local proxy is ready.
+`POST /v1/chat/completions` and `GET /v1/models` are OpenAI-compatible, so an
+application that lists models against its configured base URL works without a
+second endpoint. `GET /healthz` reports whether the local proxy is ready.
+
+The model catalog is the one route here that is **not** confidential. It is
+public, unauthenticated, cacheable data with no prompt, completion or
+credential in it, so the proxy passes it through over ordinary TLS rather than
+over EHBP, and does not forward the caller's `Authorization` header. These
+requests are not counted on the verification page, because nothing about them
+crossed the attested channel. Add `--model-catalog=false` to the service
+command to remove the route.
 
 ## Privacy verification page
 
