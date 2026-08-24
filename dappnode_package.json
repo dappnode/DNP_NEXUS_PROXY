@@ -1,7 +1,7 @@
 {
   "name": "nexus-local-proxy.dnp.dappnode.eth",
   "version": "0.1.1",
-  "upstreamVersion": "5a77ef408ca8f3f5816f835f5919993c2d25672c",
+  "upstreamVersion": "dc337543af71671ef56ca7c2309223e647e60e41",
   "upstreamRepo": "dappnode/dappnode-nexus-sdk",
   "upstreamArg": "UPSTREAM_VERSION",
   "shortDescription": "Attested private AI proxy for DAppNode applications",
