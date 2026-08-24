@@ -14,9 +14,7 @@ jobs:
     name: Build test
     steps:
       - uses: actions/checkout@v4
-      # Pinned: 0.3.53 cannot publish a package that is not yet registered
-      # on-chain. See the Publish step below.
-      - run: npx @dappnode/dappnodesdk@0.3.52 build --skip_save
+      - run: npx @dappnode/dappnodesdk build --skip_save
         env:
           # Read access to the private dappnode-nexus-sdk repository. The
           # default GITHUB_TOKEN is scoped to this repository only and cannot
@@ -30,13 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Publish
-        # Pinned to 0.3.52. In 0.3.53 the "package not yet registered on-chain"
-        # case is detected by matching the old ethers error text "NOREPO", but
-        # current ethers raises ResolverNotFound instead, so the guard misses and
-        # the publish aborts. 0.3.52 still reports NOREPO, falls back to the
-        # manifest version, and emits the release with its manual publish link.
-        # Unpin once DAppNodeSDK handles ResolverNotFound.
-        run: npx @dappnode/dappnodesdk@0.3.52 publish patch --dappnode_team_preset --timeout 2h
+        run: npx @dappnode/dappnodesdk publish patch --dappnode_team_preset --timeout 2h
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEXUS_SDK_TOKEN: ${{ secrets.NEXUS_SDK_TOKEN }}
