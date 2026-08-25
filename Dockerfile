@@ -29,6 +29,11 @@ RUN go mod download \
     && go mod verify \
     && CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/nexus-proxy ./cmd/nexus-proxy
 
+# Docker seeds a fresh named volume from the image path it is mounted over,
+# ownership included. Creating the state directory here as nonroot is what lets
+# the distroless runtime (which has no shell to chown with) write to it.
+RUN mkdir -p /out/state && chown 65532:65532 /out/state
+
 COPY cmd/healthcheck/main.go /tmp/healthcheck.go
 RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/nexus-proxy-healthcheck /tmp/healthcheck.go
 
@@ -36,6 +41,7 @@ FROM ${RUNTIME_IMAGE}
 
 COPY --from=build /out/nexus-proxy /usr/local/bin/nexus-proxy
 COPY --from=build /out/nexus-proxy-healthcheck /usr/local/bin/nexus-proxy-healthcheck
+COPY --from=build --chown=nonroot:nonroot /out/state /var/lib/nexus-proxy
 COPY nexus-gateway-policy.json /etc/nexus/nexus-gateway-policy.json
 COPY THIRD_PARTY_NOTICES.md /usr/share/doc/nexus-local-proxy/THIRD_PARTY_NOTICES.md
 
