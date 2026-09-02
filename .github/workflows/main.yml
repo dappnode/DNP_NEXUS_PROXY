@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: npx @dappnode/dappnodesdk build --skip_save
 
   release:
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event_name == 'repository_dispatch'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Publish
         run: npx @dappnode/dappnodesdk publish patch --dappnode_team_preset --timeout 2h
         env:
