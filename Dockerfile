@@ -15,13 +15,7 @@ RUN apk add --no-cache ca-certificates git
 WORKDIR /src
 RUN git init \
     && git remote add origin https://github.com/dappnode/dappnode-nexus-sdk.git
-RUN --mount=type=secret,id=github_token \
-    if test -s /run/secrets/github_token; then \
-      auth_header="$(printf 'x-access-token:%s' "$(cat /run/secrets/github_token)" | base64 | tr -d '\n')"; \
-      git -c http.extraHeader="Authorization: Basic ${auth_header}" fetch --depth=1 origin "${UPSTREAM_VERSION}"; \
-    else \
-      git fetch --depth=1 origin "${UPSTREAM_VERSION}"; \
-    fi \
+RUN git fetch --depth=1 origin "${UPSTREAM_VERSION}" \
     && git checkout --detach FETCH_HEAD \
     && test "$(git rev-parse HEAD)" = "${UPSTREAM_VERSION}"
 
@@ -42,6 +36,7 @@ FROM ${RUNTIME_IMAGE}
 COPY --from=build /out/nexus-proxy /usr/local/bin/nexus-proxy
 COPY --from=build /out/nexus-proxy-healthcheck /usr/local/bin/nexus-proxy-healthcheck
 COPY --from=build --chown=nonroot:nonroot /out/state /var/lib/nexus-proxy
+COPY --from=build /src/LICENSE /usr/share/doc/nexus-privacy-layer/LICENSE
 COPY nexus-gateway-policy.json /etc/nexus/nexus-gateway-policy.json
 COPY THIRD_PARTY_NOTICES.md /usr/share/doc/nexus-local-proxy/THIRD_PARTY_NOTICES.md
 

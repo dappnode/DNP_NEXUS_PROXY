@@ -6,9 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        UPSTREAM_VERSION: 1fcfe23b2c2b141b2f7937ebb808646b37ed7439
-      secrets:
-        - github_token
+        UPSTREAM_VERSION: d02247176da7f848cc9a3ff4350a5307e007f58b
     image: nexus-local-proxy.dnp.dappnode.eth:0.2.0
     container_name: DAppNodePackage-nexus-local-proxy.dnp.dappnode.eth
     restart: unless-stopped
@@ -48,7 +46,3 @@ services:
 
 volumes:
   verification_state: {}
-
-secrets:
-  github_token:
-    environment: NEXUS_SDK_TOKEN

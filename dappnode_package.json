@@ -1,11 +1,11 @@
 {
   "name": "nexus-local-proxy.dnp.dappnode.eth",
   "version": "0.2.0",
-  "upstreamVersion": "1fcfe23b2c2b141b2f7937ebb808646b37ed7439",
+  "upstreamVersion": "d02247176da7f848cc9a3ff4350a5307e007f58b",
   "upstreamRepo": "dappnode/dappnode-nexus-sdk",
   "upstreamArg": "UPSTREAM_VERSION",
-  "shortDescription": "Attested private AI proxy for DAppNode applications",
-  "description": "A shared OpenAI-compatible Nexus proxy for applications on the same DAppNode. It verifies the measured Nexus Gateway inside AWS Nitro Enclaves and encrypts prompt and completion bodies with EHBP before they cross Cloudflare. A local verification page at /verification shows the attestation evidence behind that protection and lets you export it for independent checking. GET /v1/models passes the Gateway public model catalog through so ordinary OpenAI clients can list models against the proxy.",
+  "shortDescription": "Privacy layer for Nexus AI on DAppNode",
+  "description": "Gives DAppNode applications an OpenAI-compatible local endpoint that verifies the Nexus confidential service and protects prompt and response bodies. Includes a local privacy verification page and model listing.",
   "type": "dncore",
   "backup": [
     {
@@ -28,12 +28,10 @@
   "keywords": [
     "ai",
     "confidential",
-    "ehbp",
-    "nitro-enclaves",
-    "attestation",
     "openai",
+    "privacy",
     "proxy",
-    "tee"
+    "verification"
   ],
   "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
   "repository": {
