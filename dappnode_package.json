@@ -1,7 +1,7 @@
 {
   "name": "nexus-local-proxy.dnp.dappnode.eth",
   "version": "0.2.0",
-  "upstreamVersion": "d02247176da7f848cc9a3ff4350a5307e007f58b",
+  "upstreamVersion": "1525f9699c03ba8eb987182f9dbe4f2af9f48cd9",
   "upstreamRepo": "dappnode/dappnode-nexus-sdk",
   "upstreamArg": "UPSTREAM_VERSION",
   "shortDescription": "Privacy layer for Nexus AI on DAppNode",
