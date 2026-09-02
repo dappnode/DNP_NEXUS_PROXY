@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        UPSTREAM_VERSION: 1525f9699c03ba8eb987182f9dbe4f2af9f48cd9
+        UPSTREAM_VERSION: ea54fd7e6b57bf0d4920280db9d3014eff50fba9
     image: nexus-local-proxy.dnp.dappnode.eth:0.2.0
     container_name: DAppNodePackage-nexus-local-proxy.dnp.dappnode.eth
     restart: unless-stopped

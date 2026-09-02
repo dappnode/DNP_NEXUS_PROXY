@@ -1,11 +1,11 @@
 {
   "name": "nexus-local-proxy.dnp.dappnode.eth",
   "version": "0.2.0",
-  "upstreamVersion": "1525f9699c03ba8eb987182f9dbe4f2af9f48cd9",
+  "upstreamVersion": "ea54fd7e6b57bf0d4920280db9d3014eff50fba9",
   "upstreamRepo": "dappnode/dappnode-nexus-sdk",
   "upstreamArg": "UPSTREAM_VERSION",
-  "shortDescription": "Privacy layer for Nexus AI on DAppNode",
-  "description": "Gives DAppNode applications an OpenAI-compatible local endpoint that verifies the Nexus confidential service and protects prompt and response bodies. Includes a local privacy verification page and model listing.",
+  "shortDescription": "Private Nexus access for DAppNode applications",
+  "description": "Runs the DAppNode Nexus SDK as a shared OpenAI-compatible local endpoint that verifies the Nexus Gateway and protects prompt and response bodies. Includes a local verification page and model listing.",
   "type": "dncore",
   "backup": [
     {

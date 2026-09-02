@@ -36,7 +36,7 @@ FROM ${RUNTIME_IMAGE}
 COPY --from=build /out/nexus-proxy /usr/local/bin/nexus-proxy
 COPY --from=build /out/nexus-proxy-healthcheck /usr/local/bin/nexus-proxy-healthcheck
 COPY --from=build --chown=nonroot:nonroot /out/state /var/lib/nexus-proxy
-COPY --from=build /src/LICENSE /usr/share/doc/nexus-privacy-layer/LICENSE
+COPY --from=build /src/LICENSE /usr/share/doc/nexus-sdk/LICENSE
 COPY nexus-gateway-policy.json /etc/nexus/nexus-gateway-policy.json
 COPY THIRD_PARTY_NOTICES.md /usr/share/doc/nexus-local-proxy/THIRD_PARTY_NOTICES.md
 

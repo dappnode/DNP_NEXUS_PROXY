@@ -1,11 +1,11 @@
-# Nexus Privacy Layer for DAppNode
+# Nexus Local Proxy for DAppNode
 
 Private, OpenAI-compatible access to Nexus for applications on your DAppNode.
 
-This package runs a shared local privacy layer for applications installed on
-the same DAppNode. It verifies the Nexus confidential service before accepting
-traffic and protects prompt and response bodies on their way to and from
-Nexus.
+This package runs a shared local instance of the DAppNode Nexus SDK for
+applications installed on the same DAppNode. It verifies the Nexus Gateway
+before accepting traffic and protects prompt and response bodies on their way
+to and from Nexus.
 
 ## Connect an application
 
@@ -60,7 +60,7 @@ Port `3301` must remain private to the DAppNode network.
 
 ## Development
 
-The package builds the privacy-layer source from the exact public commit set in
+The package builds the Nexus SDK from the exact public commit set in
 `UPSTREAM_VERSION`:
 
 ```sh
@@ -69,6 +69,6 @@ docker compose build
 
 ## License
 
-This package is licensed under the [MIT License](LICENSE). The bundled Nexus
-Privacy Layer is licensed under Apache-2.0; dependency notices are in
+This package is licensed under the [MIT License](LICENSE). The bundled DAppNode
+Nexus SDK is licensed under Apache-2.0; dependency notices are in
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
