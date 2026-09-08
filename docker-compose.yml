@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        UPSTREAM_VERSION: 1fcfe23b2c2b141b2f7937ebb808646b37ed7439
+        UPSTREAM_VERSION: d226fca7a37b2a0f556642844f2ec2aafa19d9ca
       secrets:
         - github_token
     image: nexus-local-proxy.dnp.dappnode.eth:0.2.0
@@ -15,8 +15,9 @@ services:
     command:
       - --gateway-url
       - https://nexus-api-tee.dappnode.com
-      - --trust-policy
-      - /etc/nexus/nexus-gateway-policy.json
+      - --trust-policy-updates
+      - --trust-policy-cache
+      - /var/lib/nexus-proxy/releases.json
       - --listen
       - 0.0.0.0:3301
       - --listen-scope
