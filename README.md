@@ -2,8 +2,9 @@
 
 This DAppNode package runs one shared Nexus proxy for OpenAI-compatible
 applications installed on the same DAppNode. The proxy verifies fresh AWS
-Nitro attestation against an independently pinned policy and encrypts chat
-request and response bodies with EHBP before they cross Cloudflare.
+Nitro attestation against measurements it takes from signed Gateway releases,
+and encrypts chat request and response bodies with EHBP before they cross
+Cloudflare.
 
 ## Client configuration
 
@@ -18,8 +19,9 @@ API:      OpenAI Chat Completions
 The API key remains in the normal `Authorization: Bearer ...` header. The
 proxy does not store it and does not automatically retry inference requests.
 
-Applications may declare the package dependency once and then receive proxy
-and trust-policy updates independently:
+Applications may declare the package dependency once. They then follow Gateway
+releases automatically, without either the application or this package being
+republished:
 
 ```json
 {
@@ -57,11 +59,14 @@ From there the raw COSE_Sign1 attestation document and its signed manifest can
 be downloaded and re-checked with an independent AWS Nitro verifier.
 
 The page shows no prompt or completion content. The ledger behind it records
-only verification evidence and per request identifiers, timing and sizes, and
-holds them in memory: nothing is written to disk and history starts empty after
-a restart. Because it is served on the proxy port, anything on the DAppNode
-internal network can read this metadata. Add `--verification-ui=false` to the
-service command to remove the page and its API.
+only verification evidence and per request identifiers, timing and sizes. That
+history is written to the `verification_state` volume at
+`/var/lib/nexus-proxy/verification.json`, so it survives a restart and is
+included in package backups. The on-disk format cannot express a prompt or a
+completion. Because the page is served on the proxy port, anything on the
+DAppNode internal network can read this metadata. Add `--verification-ui=false`
+to the service command to remove the page and its API, or drop `--state-file`
+from the service command to keep history in memory only.
 
 ## Security boundary
 
@@ -75,24 +80,51 @@ timing, or bearer API key. This package does not extend the claim to a
 downstream inference provider. Do not publish container port 3301 to the host
 or Internet.
 
-## Current pin
+## Trust policy
+
+This package no longer ships enclave measurements. The proxy derives them from
+the most recent Gateway releases, each signed during the Gateway release
+workflow with a Sigstore certificate issued to that workflow's GitHub identity.
+Only a signature from that exact identity is accepted, so the download is not
+trusted: GitHub is a CDN here, and a swapped or edited release is rejected
+rather than believed.
+
+This is why the package no longer has to be republished for every Gateway
+release, and why an installed proxy can no longer be left stranded on
+measurements that predate the deployed enclave.
+
+What the proxy checks has not changed. The measurements are still compared
+against the enclave's live attestation exactly as before, and the
+body-encryption contract is compiled into the SDK: a signed release may say
+which build to trust, never what protection that build owes the caller.
+
+A newly deployed Gateway is picked up on first contact rather than on a timer.
+A release the current policy has never heard of is precisely what a new
+deployment looks like, so the proxy re-derives its policy and verifies again
+within the same request. Nothing needs to be pushed to the node, which matters
+because DAppNodes sit behind NAT. An hourly background refresh is a backstop on
+top of that.
+
+It stays fail-closed. If neither the network nor the cache produces a verified
+policy, the proxy refuses to start rather than falling back to something older.
+
+`--trust-policy-cache` keeps the signed material from the last successful fetch
+on the `verification_state` volume, so a node that restarts without a network
+rebuilds the same policy. Every signature is re-verified on load.
 
 This package pins:
 
-- SDK commit `7ecb47b27122d41f010d33811236328e7ce3af17` (`main`).
-- Gateway release `v0.1.57`, source revision `bda15a3549b7a9fbb37004281852079e9013f73b`.
-- The PCR values in `nexus-gateway-policy.json`.
+- SDK commit, as `UPSTREAM_VERSION` in `docker-compose.yml` and
+  `dappnode_package.json`.
 - Gateway origin `https://nexus-api-tee.dappnode.com`.
+- The Gateway release-workflow signing identity, compiled into the SDK.
 
-The trust policy must always describe a Gateway release actually deployed at
-that origin. It is fail-closed: if no pinned release matches the running
-enclave, the proxy refuses to start. Take measurements from the signed release
-record rather than from the live attestation endpoint.
+### Network requirement
 
-`releases` accepts several entries, so a Gateway can be rolled out without
-installed proxies failing closed in between. Publish a policy listing both the
-outgoing and incoming release, let it reach nodes, deploy the Gateway, then
-publish a policy listing only the new release.
+The proxy needs outbound HTTPS to `api.github.com` and
+`objects.githubusercontent.com` at startup, on meeting an unknown Gateway
+release, and hourly. A node that cannot reach them starts only if its cache
+already holds a verified policy.
 
 ## Build
 
