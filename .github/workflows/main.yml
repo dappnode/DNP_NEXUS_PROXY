@@ -14,8 +14,6 @@ jobs:
     name: Build test
     steps:
       - uses: actions/checkout@v4
-      - name: Resolve the SDK commit to build
-        run: ./scripts/resolve-sdk-commit.sh
       - run: npx @dappnode/dappnodesdk build --skip_save
 
   release:
@@ -25,11 +23,6 @@ jobs:
     if: github.event_name == 'push' || github.event_name == 'repository_dispatch'
     steps:
       - uses: actions/checkout@v4
-      # Resolves dappnode-nexus-sdk main to the commit this build actually used
-      # and records it in the manifest, so the published package says which SDK
-      # source went into it without anyone maintaining the value by hand.
-      - name: Resolve the SDK commit to build
-        run: ./scripts/resolve-sdk-commit.sh
       - name: Publish
         run: npx @dappnode/dappnodesdk publish patch --dappnode_team_preset --timeout 2h
         env:
