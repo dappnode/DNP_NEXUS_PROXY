@@ -5,7 +5,7 @@
   "upstreamRepo": "dappnode/dappnode-nexus-sdk",
   "upstreamArg": "UPSTREAM_VERSION",
   "shortDescription": "Keep your Nexus prompts private, and verify it yourself",
-  "description": "Your prompts normally get decrypted on the way to Nexus. This package stops that: it encrypts them so only the TEE (trusted execution environment) that Nexus runs inside can read them — not us, not Dappnode, nobody in between.\n\nIt checks that the TEE really is what it claims to be, automatically, every time it connects. If the check fails it stops rather than sending your prompts unprotected.\n\nYou do not have to take our word for it. The verification page shows whether the check passed right now, what was checked, and lets you download the raw proof to verify independently. It never shows your prompts.\n\nPoint any OpenAI-compatible app on this Dappnode at http://nexus-proxy.dappnode.private:3301/v1 with your normal Nexus API key. Same key, same models, same prices. Some apps, such as Hermes Agent, have a private mode switch that does this for you.\n\nNote: Auto Router (nexus/auto) and PII masking do not work through the proxy yet.",
+  "description": "Encrypts your Nexus prompts so only the TEE (trusted execution environment) that Nexus runs inside can read them — not us, not Dappnode, nobody in between. It verifies the TEE automatically on every connection.\n\nYou do not have to take our word for it: the verification page shows what was checked, right now, and lets you download the raw proof to verify independently. It never shows your prompts.\n\nPoint any OpenAI-compatible app on this Dappnode at http://nexus-proxy.dappnode.private:3301/v1 with your normal Nexus API key. Same key, same models, same prices. Some apps, such as Hermes Agent, have a private mode switch that does this for you.\n\nAuto Router (nexus/auto) and PII masking do not work through the proxy.",
   "type": "dncore",
   "backup": [
     {
@@ -45,7 +45,7 @@
   },
   "license": "MIT",
   "warnings": {
-    "onInstall": "Your prompts get encrypted so only the TEE running Nexus can read them. The proxy verifies that TEE automatically and stops rather than sending prompts unprotected if it cannot. Auto Router and PII masking do not work through the proxy yet. Keep port 3301 on the internal network."
+    "onInstall": "Point your apps at http://nexus-proxy.dappnode.private:3301/v1 with your normal Nexus API key. Auto Router and PII masking do not work through the proxy. If the TEE cannot be verified, requests stop. Keep port 3301 on the internal network."
   },
   "links": {
     "ui": "http://nexus-proxy.dappnode.private:3301/verification",
