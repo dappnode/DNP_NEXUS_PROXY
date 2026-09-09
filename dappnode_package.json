@@ -1,5 +1,5 @@
 {
-  "name": "nexus-local-proxy.dnp.dappnode.eth",
+  "name": "nexus-proxy.dnp.dappnode.eth",
   "version": "0.1.0",
   "upstreamVersion": "219977388b9f26435c2529fc1cd52ff7229e5397",
   "upstreamRepo": "dappnode/dappnode-nexus-sdk",
@@ -13,7 +13,7 @@
       "path": "/var/lib/nexus-proxy"
     }
   ],
-  "mainService": "nexus-local-proxy",
+  "mainService": "nexus-proxy",
   "architectures": [
     "linux/amd64",
     "linux/arm64"
@@ -38,10 +38,10 @@
   "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dappnode/DAppNodePackage-nexus-local-proxy"
+    "url": "https://github.com/dappnode/DNP_NEXUS_PROXY"
   },
   "bugs": {
-    "url": "https://github.com/dappnode/DAppNodePackage-nexus-local-proxy/issues"
+    "url": "https://github.com/dappnode/DNP_NEXUS_PROXY/issues"
   },
   "license": "MIT",
   "warnings": {

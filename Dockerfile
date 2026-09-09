@@ -42,7 +42,7 @@ FROM ${RUNTIME_IMAGE}
 COPY --from=build /out/nexus-proxy /usr/local/bin/nexus-proxy
 COPY --from=build /out/nexus-proxy-healthcheck /usr/local/bin/nexus-proxy-healthcheck
 COPY --from=build --chown=nonroot:nonroot /out/state /var/lib/nexus-proxy
-COPY THIRD_PARTY_NOTICES.md /usr/share/doc/nexus-local-proxy/THIRD_PARTY_NOTICES.md
+COPY THIRD_PARTY_NOTICES.md /usr/share/doc/nexus-proxy/THIRD_PARTY_NOTICES.md
 
 USER nonroot:nonroot
 EXPOSE 3301
