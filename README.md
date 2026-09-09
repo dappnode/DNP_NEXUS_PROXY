@@ -14,6 +14,10 @@ API key:  your normal Nexus API key
 Same key, same models, same prices. Some Dappnode apps have a **private mode**
 switch that does this for you — Hermes Agent is one.
 
+For the whole path, pick a model whose id starts with **`private/`**. Those run
+inside a TEE too, so your prompt stays encrypted from this proxy to Nexus and
+from Nexus to the model.
+
 ## Check it yourself
 
 ```text
@@ -39,9 +43,13 @@ tooling. It never shows your prompts.
 Encrypted: prompt and reply bodies, from this proxy to the verified Gateway
 inside the TEE.
 
+With a **`private/`** model, that continues past Nexus: the Gateway reaches
+those models over an attested, encrypted transport that fails closed, so the
+prompt is protected end to end.
+
 Outside that: the hop from your app to this proxy (ordinary HTTP on the
-Dappnode internal network), request metadata — method, path, headers, sizes,
-timing and your bearer key — and whatever the model provider does downstream.
+Dappnode internal network) and request metadata — method, path, headers, sizes,
+timing and your bearer key.
 
 ## Endpoints
 

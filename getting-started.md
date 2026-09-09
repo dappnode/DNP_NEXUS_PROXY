@@ -24,6 +24,12 @@ API key:  your normal Nexus API key
 Same key, same models, same prices. Some apps have a **private mode** switch
 that does this for you — Hermes Agent is one.
 
+## Get the most out of it
+
+Pick a model whose id starts with **`private/`**. Those run inside a TEE too,
+so your prompt stays encrypted the whole way — from this proxy to Nexus, and
+from Nexus to the model.
+
 ## Good to know
 
 - Auto Router (`nexus/auto`) and PII masking do not work through the proxy.
