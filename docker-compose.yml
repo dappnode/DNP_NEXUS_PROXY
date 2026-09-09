@@ -1,16 +1,16 @@
 version: "3.5"
 
 services:
-  nexus-local-proxy:
+  nexus-proxy:
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        UPSTREAM_VERSION: d226fca7a37b2a0f556642844f2ec2aafa19d9ca
+        UPSTREAM_VERSION: 219977388b9f26435c2529fc1cd52ff7229e5397
       secrets:
         - github_token
-    image: nexus-local-proxy.dnp.dappnode.eth:0.2.0
-    container_name: DAppNodePackage-nexus-local-proxy.dnp.dappnode.eth
+    image: nexus-proxy.dnp.dappnode.eth:0.1.0
+    container_name: DAppNodeCore-nexus-proxy.dnp.dappnode.eth
     restart: unless-stopped
     command:
       - --gateway-url

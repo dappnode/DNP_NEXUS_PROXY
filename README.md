@@ -11,7 +11,7 @@ Cloudflare.
 Configure DAppNode applications with:
 
 ```text
-Base URL: http://nexus-local-proxy.dappnode.private:3301/v1
+Base URL: http://nexus-proxy.dappnode.private:3301/v1
 API key:  the application's normal Nexus API key
 API:      OpenAI Chat Completions
 ```
@@ -26,7 +26,7 @@ republished:
 ```json
 {
   "dependencies": {
-    "nexus-local-proxy.dnp.dappnode.eth": "^0.1.0"
+    "nexus-proxy.dnp.dappnode.eth": "^0.1.0"
   }
 }
 ```
@@ -49,7 +49,7 @@ The package serves a page showing whether the Gateway is currently verified and
 what was checked:
 
 ```text
-http://nexus-local-proxy.dappnode.private:3301/verification
+http://nexus-proxy.dappnode.private:3301/verification
 ```
 
 It reports the verdict in plain language, lists the checks the proxy performed
