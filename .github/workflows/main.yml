@@ -15,14 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npx @dappnode/dappnodesdk build --skip_save
-        env:
-          # Read access to the private dappnode-nexus-sdk repository. The
-          # default GITHUB_TOKEN is scoped to this repository only and cannot
-          # fetch the proxy source.
-          NEXUS_SDK_TOKEN: ${{ secrets.NEXUS_SDK_TOKEN }}
 
   release:
     name: Release
+    needs: build-test
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event_name == 'repository_dispatch'
     steps:
@@ -31,5 +27,4 @@ jobs:
         run: npx @dappnode/dappnodesdk publish patch --dappnode_team_preset --timeout 2h
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEXUS_SDK_TOKEN: ${{ secrets.NEXUS_SDK_TOKEN }}
           DEVELOPER_ADDRESS: "0xf35960302a07022aba880dffaec2fdd64d5bf1c1"

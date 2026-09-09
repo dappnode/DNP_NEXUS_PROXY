@@ -1,7 +1,7 @@
 {
   "name": "nexus-proxy.dnp.dappnode.eth",
   "version": "0.1.0",
-  "upstreamVersion": "219977388b9f26435c2529fc1cd52ff7229e5397",
+  "upstreamVersion": "v0.1.0",
   "upstreamRepo": "dappnode/dappnode-nexus-sdk",
   "upstreamArg": "UPSTREAM_VERSION",
   "shortDescription": "Keep your Nexus prompts private, and verify it yourself",

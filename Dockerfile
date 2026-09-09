@@ -7,23 +7,15 @@ FROM ${GO_IMAGE} AS build
 
 ARG UPSTREAM_VERSION
 RUN test -n "${UPSTREAM_VERSION}" \
-    && test "$(printf '%s' "${UPSTREAM_VERSION}" | wc -c)" -eq 40 \
-    && printf '%s' "${UPSTREAM_VERSION}" | grep -Eq '^[0-9a-f]{40}$'
+    && printf '%s' "${UPSTREAM_VERSION}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'
 
 RUN apk add --no-cache ca-certificates git
 
 WORKDIR /src
 RUN git init \
     && git remote add origin https://github.com/dappnode/dappnode-nexus-sdk.git
-RUN --mount=type=secret,id=github_token \
-    if test -s /run/secrets/github_token; then \
-      auth_header="$(printf 'x-access-token:%s' "$(cat /run/secrets/github_token)" | base64 | tr -d '\n')"; \
-      git -c http.extraHeader="Authorization: Basic ${auth_header}" fetch --depth=1 origin "${UPSTREAM_VERSION}"; \
-    else \
-      git fetch --depth=1 origin "${UPSTREAM_VERSION}"; \
-    fi \
-    && git checkout --detach FETCH_HEAD \
-    && test "$(git rev-parse HEAD)" = "${UPSTREAM_VERSION}"
+RUN git fetch --depth=1 origin "refs/tags/${UPSTREAM_VERSION}" \
+    && git checkout --detach FETCH_HEAD
 
 RUN go mod download \
     && go mod verify \
