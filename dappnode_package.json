@@ -47,7 +47,7 @@
   "type": "dncore",
   "upstreamArg": "UPSTREAM_VERSION",
   "upstreamRepo": "dappnode/dappnode-nexus-sdk",
-  "upstreamVersion": "v0.1.5",
+  "upstreamVersion": "v0.1.6",
   "version": "0.1.0",
   "warnings": {
     "onInstall": "Point your apps at http://nexus-proofs.dappnode.private:3301/v1 with your normal Nexus API key. Auto Router and PII masking do not work through Nexus Proofs. If the TEE cannot be verified, requests stop. Keep port 3301 on the internal network."
