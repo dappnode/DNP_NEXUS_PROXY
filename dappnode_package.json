@@ -1,30 +1,23 @@
 {
-  "name": "nexus-proofs.dnp.dappnode.eth",
-  "version": "0.1.0",
-  "upstreamVersion": "v0.1.0",
-  "upstreamRepo": "dappnode/dappnode-nexus-sdk",
-  "upstreamArg": "UPSTREAM_VERSION",
-  "shortDescription": "Keep your Nexus prompts private, and verify it yourself",
-  "description": "Keeps your prompts encrypted all the way to Nexus, which runs inside a TEE (trusted execution environment). Nobody in between can read them — not us, not Dappnode. It verifies the TEE automatically on every connection.\n\nYou do not have to take our word for it: the verification page shows what was checked, right now, and lets you download the raw proof to verify independently. It never shows your prompts.\n\nPoint any OpenAI-compatible app on this Dappnode at http://nexus-proofs.dappnode.private:3301/v1 with your normal Nexus API key. Same key, same models, same prices. Some apps, such as Hermes Agent, have a private mode switch that does this for you.\n\nFor the whole path, pick a model whose id starts with private/ — those run inside a TEE too, so your prompt stays encrypted from Nexus Proofs to Nexus and from Nexus to the model. Other models are run by their provider, which sees the prompt to answer it.\n\nAuto Router (nexus/auto) and PII masking do not work through Nexus Proofs.",
-  "type": "dncore",
+  "architectures": [
+    "linux/amd64",
+    "linux/arm64"
+  ],
+  "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
   "backup": [
     {
       "name": "verification-state",
       "path": "/var/lib/nexus-proofs"
     }
   ],
-  "mainService": "nexus-proofs",
-  "architectures": [
-    "linux/amd64",
-    "linux/arm64"
-  ],
-  "requirements": {
-    "minimumDappnodeVersion": "0.2.50"
+  "bugs": {
+    "url": "https://github.com/dappnode/DNP_NEXUS_PROOFS/issues"
   },
   "categories": [
     "AI",
     "Developer tools"
   ],
+  "description": "Keeps your prompts encrypted all the way to Nexus, which runs inside a TEE (trusted execution environment). Nobody in between can read them — not us, not Dappnode. It verifies the TEE automatically on every connection.\n\nYou do not have to take our word for it: the verification page shows what was checked, right now, and lets you download the raw proof to verify independently. It never shows your prompts.\n\nPoint any OpenAI-compatible app on this Dappnode at http://nexus-proofs.dappnode.private:3301/v1 with your normal Nexus API key. Same key, same models, same prices. Some apps, such as Hermes Agent, have a private mode switch that does this for you.\n\nFor the whole path, pick a model whose id starts with private/ — those run inside a TEE too, so your prompt stays encrypted from Nexus Proofs to Nexus and from Nexus to the model. Other models are run by their provider, which sees the prompt to answer it.\n\nAuto Router (nexus/auto) and PII masking do not work through Nexus Proofs.",
   "keywords": [
     "ai",
     "confidential",
@@ -35,21 +28,28 @@
     "proxy",
     "tee"
   ],
-  "author": "DAppNode Association <admin@dappnode.io> (https://github.com/dappnode)",
+  "license": "MIT",
+  "links": {
+    "docs": "https://github.com/dappnode/DNP_NEXUS_PROOFS#readme",
+    "homepage": "https://nexus.dappnode.com",
+    "ui": "http://nexus-proofs.dappnode.private:3301/verification"
+  },
+  "mainService": "nexus-proofs",
+  "name": "nexus-proofs.dnp.dappnode.eth",
   "repository": {
     "type": "git",
     "url": "https://github.com/dappnode/DNP_NEXUS_PROOFS"
   },
-  "bugs": {
-    "url": "https://github.com/dappnode/DNP_NEXUS_PROOFS/issues"
+  "requirements": {
+    "minimumDappnodeVersion": "0.2.50"
   },
-  "license": "MIT",
+  "shortDescription": "Keep your Nexus prompts private, and verify it yourself",
+  "type": "dncore",
+  "upstreamArg": "UPSTREAM_VERSION",
+  "upstreamRepo": "dappnode/dappnode-nexus-sdk",
+  "upstreamVersion": "v0.1.5",
+  "version": "0.1.0",
   "warnings": {
     "onInstall": "Point your apps at http://nexus-proofs.dappnode.private:3301/v1 with your normal Nexus API key. Auto Router and PII masking do not work through Nexus Proofs. If the TEE cannot be verified, requests stop. Keep port 3301 on the internal network."
-  },
-  "links": {
-    "ui": "http://nexus-proofs.dappnode.private:3301/verification",
-    "homepage": "https://nexus.dappnode.com",
-    "docs": "https://github.com/dappnode/DNP_NEXUS_PROOFS#readme"
   }
 }
