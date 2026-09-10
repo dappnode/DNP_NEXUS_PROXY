@@ -27,14 +27,14 @@ RUN go mod download \
 RUN mkdir -p /out/state && chown 65532:65532 /out/state
 
 COPY cmd/healthcheck/main.go /tmp/healthcheck.go
-RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/nexus-proxy-healthcheck /tmp/healthcheck.go
+RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/nexus-proofs-healthcheck /tmp/healthcheck.go
 
 FROM ${RUNTIME_IMAGE}
 
 COPY --from=build /out/nexus-proxy /usr/local/bin/nexus-proxy
-COPY --from=build /out/nexus-proxy-healthcheck /usr/local/bin/nexus-proxy-healthcheck
-COPY --from=build --chown=nonroot:nonroot /out/state /var/lib/nexus-proxy
-COPY THIRD_PARTY_NOTICES.md /usr/share/doc/nexus-proxy/THIRD_PARTY_NOTICES.md
+COPY --from=build /out/nexus-proofs-healthcheck /usr/local/bin/nexus-proofs-healthcheck
+COPY --from=build --chown=nonroot:nonroot /out/state /var/lib/nexus-proofs
+COPY THIRD_PARTY_NOTICES.md /usr/share/doc/nexus-proofs/THIRD_PARTY_NOTICES.md
 
 USER nonroot:nonroot
 EXPOSE 3301

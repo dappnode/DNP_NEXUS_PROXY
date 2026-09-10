@@ -34,6 +34,6 @@ func main() {
 }
 
 func fail(err error) {
-	_, _ = fmt.Fprintf(os.Stderr, "nexus-proxy health check failed: %v\n", err)
+	_, _ = fmt.Fprintf(os.Stderr, "nexus-proofs health check failed: %v\n", err)
 	os.Exit(1)
 }

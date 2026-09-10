@@ -1,4 +1,4 @@
-# Nexus Proxy
+# Nexus Proofs
 
 Keeps your prompts encrypted all the way to Nexus, which runs inside a **TEE**
 (trusted execution environment). Nobody in between can read them — not us, not
@@ -7,7 +7,7 @@ Dappnode. It verifies the TEE automatically on every connection.
 ## Use it
 
 ```text
-Base URL: http://nexus-proxy.dappnode.private:3301/v1
+Base URL: http://nexus-proofs.dappnode.private:3301/v1
 API key:  your normal Nexus API key
 ```
 
@@ -15,14 +15,14 @@ Same key, same models, same prices. Some Dappnode apps have a **private mode**
 switch that does this for you — Hermes Agent is one.
 
 For the whole path, pick a model whose id starts with **`private/`**. Those run
-inside a TEE too, so your prompt stays encrypted from this proxy to Nexus and
+inside a TEE too, so your prompt stays encrypted from Nexus Proofs to Nexus and
 from Nexus to the model. Other models are run by their provider, which sees the
 prompt to answer it.
 
 ## Check it yourself
 
 ```text
-http://nexus-proxy.dappnode.private:3301/verification
+http://nexus-proofs.dappnode.private:3301/verification
 ```
 
 What was checked, right now, plus the raw proof to verify with independent
@@ -30,7 +30,7 @@ tooling. It never shows your prompts.
 
 ## Good to know
 
-- Auto Router (`nexus/auto`) and PII masking do not work through the proxy.
+- Auto Router (`nexus/auto`) and PII masking do not work through Nexus Proofs.
   Pick a specific model.
 - If the TEE cannot be verified, requests stop. That is deliberate.
 - Keep port 3301 on the internal network.
@@ -41,14 +41,14 @@ tooling. It never shows your prompts.
 
 ## Scope
 
-Encrypted: prompt and reply bodies, from this proxy to the verified Gateway
+Encrypted: prompt and reply bodies, from Nexus Proofs to the verified Gateway
 inside the TEE.
 
 With a **`private/`** model, that continues past Nexus: the Gateway reaches
 those models over an attested, encrypted transport that fails closed, so the
 prompt is protected end to end.
 
-Outside that: the hop from your app to this proxy (ordinary HTTP on the
+Outside that: the hop from your app to Nexus Proofs (ordinary HTTP on the
 Dappnode internal network) and request metadata — method, path, headers, sizes,
 timing and your bearer key.
 
@@ -72,7 +72,7 @@ No prompt or reply content, ever — only verification evidence and per-request
 identifiers, timing and sizes. The on-disk format cannot express a prompt.
 
 Stored on the `verification_state` volume at
-`/var/lib/nexus-proxy/verification.json`, so it survives restarts and is in
+`/var/lib/nexus-proofs/verification.json`, so it survives restarts and is in
 package backups. Anything on the Dappnode internal network can read it.
 `--verification-ui=false` removes the page and its API; dropping `--state-file`
 keeps history in memory only.
@@ -86,12 +86,12 @@ download is not trusted — GitHub is a CDN here, and a swapped release is
 rejected.
 
 A new Gateway is picked up **on first contact**, not on a timer: a release the
-policy has never seen is what a new deployment looks like, so the proxy
+policy has never seen is what a new deployment looks like, so Nexus Proofs
 re-derives and verifies within the same request. Nothing needs pushing to the
 node, which matters behind NAT. An hourly refresh is a backstop.
 
 Fail-closed: if neither the network nor the cache produces a verified policy,
-the proxy refuses to start. `--trust-policy-cache` keeps the signed material on
+Nexus Proofs refuses to start. `--trust-policy-cache` keeps the signed material on
 the `verification_state` volume and every signature is re-verified on load.
 
 Pinned here: the SDK commit (`UPSTREAM_VERSION`), the Gateway origin
@@ -105,7 +105,7 @@ if the cache already holds a verified policy.
 ## Dependency
 
 ```json
-{ "dependencies": { "nexus-proxy.dnp.dappnode.eth": "^0.1.0" } }
+{ "dependencies": { "nexus-proofs.dnp.dappnode.eth": "^0.1.0" } }
 ```
 
 ## Build

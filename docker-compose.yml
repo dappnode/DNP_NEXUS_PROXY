@@ -1,31 +1,31 @@
 version: "3.5"
 
 services:
-  nexus-proxy:
+  nexus-proofs:
     build:
       context: .
       dockerfile: Dockerfile
       args:
         UPSTREAM_VERSION: v0.1.0
-    image: nexus-proxy.dnp.dappnode.eth:0.1.0
-    container_name: DAppNodeCore-nexus-proxy.dnp.dappnode.eth
+    image: nexus-proofs.dnp.dappnode.eth:0.1.0
+    container_name: DAppNodeCore-nexus-proofs.dnp.dappnode.eth
     restart: unless-stopped
     command:
       - --gateway-url
       - https://nexus-api-tee.dappnode.com
       - --trust-policy-updates
       - --trust-policy-cache
-      - /var/lib/nexus-proxy/releases.json
+      - /var/lib/nexus-proofs/releases.json
       - --listen
       - 0.0.0.0:3301
       - --listen-scope
       - dappnode
       - --state-file
-      - /var/lib/nexus-proxy/verification.json
+      - /var/lib/nexus-proofs/verification.json
     expose:
       - "3301"
     volumes:
-      - verification_state:/var/lib/nexus-proxy
+      - verification_state:/var/lib/nexus-proofs
     cap_drop:
       - ALL
     security_opt:
@@ -34,7 +34,7 @@ services:
     healthcheck:
       test:
         - CMD
-        - /usr/local/bin/nexus-proxy-healthcheck
+        - /usr/local/bin/nexus-proofs-healthcheck
       interval: 30s
       timeout: 5s
       retries: 3
