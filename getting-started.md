@@ -1,8 +1,8 @@
 # Nexus Proxy
 
-Encrypts your Nexus prompts so only the **TEE** — the trusted execution
-environment Nexus runs inside — can read them. Not us, not Dappnode, nobody in
-between.
+Keeps your prompts encrypted all the way to Nexus, which runs inside a **TEE**
+(trusted execution environment). Nobody in between can read them — not us, not
+Dappnode.
 
 It verifies the TEE automatically on every connection.
 
@@ -28,7 +28,8 @@ that does this for you — Hermes Agent is one.
 
 Pick a model whose id starts with **`private/`**. Those run inside a TEE too,
 so your prompt stays encrypted the whole way — from this proxy to Nexus, and
-from Nexus to the model.
+from Nexus to the model. Other models are run by their provider, which sees the prompt to
+answer it.
 
 ## Good to know
 
